@@ -38,26 +38,19 @@ android {
         }
     }
 
-    buildTypes {
-        release {
-            multiDexEnabled true
-            minifyEnabled true
-            shrinkResources true
-            proguardFiles getDefaultProguardFile(
-                    'proguard-android-optimize.txt'),
-                    'proguard-rules.pro'
-        }
-
-        debug {
-            multiDexEnabled true
-        }
+    buildFeatures
+    {
+        viewBinding = true
+        buildConfig = true
     }
+
+
     compileOptions {
-        sourceCompatibility = 20
-        targetCompatibility = 20
+        sourceCompatibility = 17
+        targetCompatibility = 17
     }
     kotlinOptions {
-        jvmTarget = '20'
+        jvmTarget = '17'
     }
 }
 
@@ -68,6 +61,15 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.21"
     implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+    implementation 'androidx.test.ext:junit-ktx:1.1.5'
+    implementation 'androidx.test:monitor:1.6.1'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
 
 }
