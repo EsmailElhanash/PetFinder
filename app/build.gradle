@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+def secretsFile = rootProject.file("secrets.properties")
+def secrets = new Properties()
+secrets.load(new FileInputStream(secretsFile))
+
+android {
+    compileSdk 34
+    namespace = "com.esmailelhanash.petfinder"
+    defaultConfig {
+        applicationId = "com.esmailelhanash.petfinder"
+        minSdkVersion 26
+        targetSdkVersion 34
+        versionCode 1
+        versionName "1"
+        vectorDrawables.useSupportLibrary true
+    }
+
+
+
+
+    buildTypes {
+        release {
+            multiDexEnabled true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
+
+        debug {
+            buildConfigField("String", "PETFINDER_API_KEY", "${secrets.PETFINDER_API_KEY}")
+            buildConfigField("String", "PETFINDER_SECRET", "${secrets.PETFINDER_SECRET}")
+
+            multiDexEnabled true
+        }
+    }
+
+    buildTypes {
+        release {
+            multiDexEnabled true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile(
+                    'proguard-android-optimize.txt'),
+                    'proguard-rules.pro'
+        }
+
+        debug {
+            multiDexEnabled true
+        }
+    }
+    compileOptions {
+        sourceCompatibility = 20
+        targetCompatibility = 20
+    }
+    kotlinOptions {
+        jvmTarget = '20'
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.21"
+    implementation 'com.squareup.okhttp3:okhttp:4.9.1'
+
+
+}
+repositories {
+    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+    mavenCentral()
+}
