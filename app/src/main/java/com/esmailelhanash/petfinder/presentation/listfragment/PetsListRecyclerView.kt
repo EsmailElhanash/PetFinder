@@ -10,9 +10,7 @@ import com.bumptech.glide.Glide
 import com.esmailelhanash.petfinder.R
 import com.esmailelhanash.petfinder.models.Animal
 
-class PetsListRecyclerView (private val allPets: List<Animal>): RecyclerView.Adapter<PetsListRecyclerView.PetsListViewHolder>() {
-
-    private var selectedType: String = "All"
+class PetsListRecyclerView (private val allPets: List<Animal>, private val itemClickListener: ItemClickListener): RecyclerView.Adapter<PetsListRecyclerView.PetsListViewHolder>() {
 
     private var filteredPets: List<Animal> = allPets
 
@@ -33,25 +31,13 @@ class PetsListRecyclerView (private val allPets: List<Animal>): RecyclerView.Ada
         holder: PetsListViewHolder,
         position: Int
     ) {
+        holder.itemView.setOnClickListener {
+            itemClickListener.onItemClicked(allPets[position])
+        }
         holder.bind()
     }
     override fun getItemId(position: Int): Long {
         return filteredPets[position].id.toLong()
-    }
-
-    fun selectType(type: String) {
-        selectedType = type
-        filterByType(type)
-        notifyDataSetChanged()
-    }
-
-    private fun filterByType(type: String) {
-        filteredPets = if (type == "All") {
-            allPets
-        }else {
-            allPets.filter { it.type == type }
-        }
-
     }
 
 
@@ -95,12 +81,11 @@ class PetsListRecyclerView (private val allPets: List<Animal>): RecyclerView.Ada
             }
 
         }
-
-
-
-
-
     }
 
+    interface ItemClickListener {
+        fun onItemClicked(animal: Animal)
+        // Add more methods for other events if needed
 
+    }
 }

@@ -1,5 +1,6 @@
 package com.esmailelhanash.petfinder.presentation.detailsfragment
 
+import android.content.res.Resources
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -23,7 +24,7 @@ class PetDetailsFragment(private val pet: Animal) :  Fragment() {
         binding.sizeTextView.text = binding.sizeTextView.text.replace(Regex("xxx"), pet.size)
         binding.colorTextView.text = binding.colorTextView.text.replace(Regex("xxx"), pet.colors.primary ?: "N/A")
         binding.ageTextView.text = binding.ageTextView.text.replace(Regex("xxx"), pet.age)
-        binding.descriptionTextView.text = binding.descriptionTextView.text.replace(Regex("xxx"), pet.description?: "N/A")
+//        binding.descriptionTextView.text = binding.descriptionTextView.text.replace(Regex("xxx"), pet.description?: "N/A")
         binding.statusTextView.text = binding.statusTextView.text.replace(Regex("xxx"), pet.status)
 
 
@@ -34,9 +35,15 @@ class PetDetailsFragment(private val pet: Animal) :  Fragment() {
 
     // set image of the pet:
     private fun setImage() {
+        val screenWidth = Resources.getSystem().displayMetrics.widthPixels
+        val targetSize = (0.8 * screenWidth).toInt()
+//        binding.petImageView.layoutParams.width = targetSize
+        binding.petImageView.layoutParams.height = targetSize
+
         if (pet.photos.isNotEmpty()) {
             Glide.with(requireContext())
-                .load(pet.photos[0].full)
+                .load(pet.photos[0].full) // Set both width and height to create a square image
+//                .centerCrop()
                 .placeholder(R.drawable.ph)
                 .into(binding.petImageView)
         } else {

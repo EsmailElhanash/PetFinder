@@ -6,9 +6,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.esmailelhanash.petfinder.R
+import com.esmailelhanash.petfinder.models.Animal
 import com.esmailelhanash.petfinder.presentation.PetsViewModel
+import com.esmailelhanash.petfinder.presentation.detailsfragment.PetDetailsFragment
 
-class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListener {
+class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListener, PetsListRecyclerView.ItemClickListener {
 
     // viewmodel
     private val petsViewModel: PetsViewModel by lazy {
@@ -36,7 +38,7 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
             if (it != null) {
                 petTypesRV.adapter = PetsTypesRecyclerViewAdapter(it,this)
                 petTypesRV.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-                petsListRV.adapter = PetsListRecyclerView(it)
+                petsListRV.adapter = PetsListRecyclerView(it,this)
                 petsListRV.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
 
             }
@@ -51,11 +53,11 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
                 val allPets = petsViewModel.animals.value
                 if (allPets!= null) {
                     petsListRV.adapter = if (it == "All")
-                        PetsListRecyclerView(allPets)
+                        PetsListRecyclerView(allPets,this)
                         else PetsListRecyclerView(allPets.filter { pet ->
                         pet.type == it
 
-                    })
+                    },this)
                 }
 
             }
@@ -68,6 +70,22 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
 
     override fun onItemClicked(type: String) {
         petsViewModel.setCurrentlyDisplayedType(type)
+    }
+
+    override fun onItemClicked(animal: Animal) {
+        // In your FirstFragment where you want to navigate to the SecondFragment
+        val petDetailsFragment = PetDetailsFragment(animal)
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+
+        // Replace the current fragment with the new one
+        transaction.replace(R.id.fragmentContainer, petDetailsFragment)
+
+        // Optionally, add the transaction to the back stack
+        transaction.addToBackStack(null)
+
+        // Commit the transaction
+        transaction.commit()
+
     }
 
 
