@@ -14,7 +14,7 @@
         android:theme="@style/Theme.PetFinder"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.PetsListActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>

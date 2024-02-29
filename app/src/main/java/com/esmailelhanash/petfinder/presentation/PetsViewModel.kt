@@ -20,6 +20,11 @@ class PetsViewModel : ViewModel() {
     private val _error = MutableLiveData<String?>()
     val error: MutableLiveData<String?> = _error
 
+
+    // the currently displayed animal type
+    private val _currentlyDisplayedType = MutableLiveData<String>()
+    val currentlyDisplayedType: LiveData<String> = _currentlyDisplayedType
+
     fun getAllAnimals() {
         _isLoading.value = true
         _error.value = null
