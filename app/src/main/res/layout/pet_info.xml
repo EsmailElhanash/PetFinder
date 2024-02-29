@@ -10,7 +10,7 @@
     <!-- Image -->
     <ImageView
         android:src="@drawable/ph"
-        android:id="@+id/imageView"
+        android:id="@+id/petPhoto"
         android:layout_width="120dp"
         android:layout_height="120dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,9 +25,9 @@
         android:id="@+id/nameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name: xxx"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
+        android:text="@string/name_xxx"
+        app:layout_constraintStart_toEndOf="@+id/petPhoto"
+        app:layout_constraintTop_toTopOf="@+id/petPhoto"
         app:layout_constraintBottom_toTopOf="@+id/genderTextView"
         app:layout_constraintVertical_bias="0.2"/>
 
@@ -37,8 +37,8 @@
         android:id="@+id/genderTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gender: xxx"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        android:text="@string/gender_xxx"
+        app:layout_constraintStart_toEndOf="@+id/petPhoto"
         app:layout_constraintTop_toBottomOf="@+id/nameTextView"
         app:layout_constraintBottom_toTopOf="@+id/typeTextView"
         app:layout_constraintVertical_bias="0.2"/>
@@ -49,10 +49,10 @@
         android:id="@+id/typeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Type: xxx"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        android:text="@string/type_xxx"
+        app:layout_constraintStart_toEndOf="@+id/petPhoto"
         app:layout_constraintTop_toBottomOf="@+id/genderTextView"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintBottom_toBottomOf="@+id/petPhoto"
         app:layout_constraintVertical_bias="0.2"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
