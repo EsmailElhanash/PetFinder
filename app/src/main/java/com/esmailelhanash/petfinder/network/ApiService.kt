@@ -1,6 +1,7 @@
 package com.esmailelhanash.petfinder.network
 
-import com.esmailelhanash.petfinder.Animal
+import com.esmailelhanash.petfinder.models.Animal
+import com.esmailelhanash.petfinder.models.AnimalResponse
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Field
@@ -8,7 +9,6 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
-import retrofit2.http.Path
 
 
 interface ApiService {
@@ -23,7 +23,7 @@ interface ApiService {
 
     // get all animals:
     @GET("animals")
-    fun getAllAnimals(@Header("Authorization") accessToken: String): Call<Any>
+    fun getAllAnimals(@Header("Authorization") accessToken: String): Call<AnimalResponse>
 
 
 }

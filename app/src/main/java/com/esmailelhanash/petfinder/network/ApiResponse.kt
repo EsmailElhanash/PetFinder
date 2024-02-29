@@ -1,24 +1,27 @@
 package com.esmailelhanash.petfinder.network
 
-import com.esmailelhanash.petfinder.Animal
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import java.lang.reflect.Type
 
-data class ApiResponse(
-    val ak: List<Animal>
+class ApiResponse(
+    // Other fields you may have
+    val data: Any // This represents the entire response
 )
 
-class ApiResponseDeserializer : JsonDeserializer<ApiResponse> {
-    override fun deserialize(
-        json: JsonElement?,
-        typeOfT: Type?,
-        context: JsonDeserializationContext?
-    ): ApiResponse {
-        val akObject = json?.asJsonObject?.getAsJsonObject("ak")
-        val animals = Gson().fromJson(akObject?.getAsJsonArray("value"), List::class.java)
-        return ApiResponse(animals as List<Animal>)
-    }
-}
+//class AnimalDeserializer : JsonDeserializer<List<Animal>> {
+//    override fun deserialize(
+//        json: JsonElement?,
+//        typeOfT: Type?,
+//        context: JsonDeserializationContext?
+//    ): List<Animal> {
+//        val animalsJson = json?.asJsonObject?.getAsJsonArray("data")
+//        return Gson().fromJson(animalsJson, typeOfT)
+//    }
+//}
+
+// In your Retrofit setup
+
+// Your API service interface remains the same

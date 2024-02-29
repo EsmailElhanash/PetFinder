@@ -2,8 +2,14 @@ package com.esmailelhanash.petfinder.models
 
 import com.google.gson.annotations.SerializedName
 
+
+
+data class AnimalResponse(
+    @SerializedName("animals") val animals: List<Animal>,
+    @SerializedName("pagination") val pagination: Pagination
+)
 data class Animal(
-    @SerializedName("id") val id: Double,
+    @SerializedName("id") val id: String,
     @SerializedName("organization_id") val organizationId: String,
     @SerializedName("url") val url: String,
     @SerializedName("type") val type: String,
@@ -19,10 +25,10 @@ data class Animal(
     @SerializedName("tags") val tags: List<String>,
     @SerializedName("name") val name: String,
     @SerializedName("description") val description: String?,
-    @SerializedName("organization_animal_id") val organizationAnimalId: Int,
-    @SerializedName("photos") val photos: List<String>,
-    @SerializedName("primary_photo_cropped") val primaryPhotoCropped: String?,
-    @SerializedName("videos") val videos: List<String>,
+    @SerializedName("organization_animal_id") val organizationAnimalId: String,
+    @SerializedName("photos") val photos: List<Photo>,
+    @SerializedName("primary_photo_cropped") val primaryPhotoCropped: Photo?,
+    @SerializedName("videos") val videos: List<Video>,
     @SerializedName("status") val status: String,
     @SerializedName("status_changed_at") val statusChangedAt: String,
     @SerializedName("published_at") val publishedAt: String,
@@ -89,4 +95,23 @@ data class Type(
 
 data class Organization(
     @SerializedName("href") val href: String
+)
+
+data class Photo(
+    @SerializedName("small") val small: String,
+    @SerializedName("medium") val medium: String,
+    @SerializedName("large") val large: String,
+    @SerializedName("full") val full: String
+)
+
+data class Video(
+    @SerializedName("embed") val embed: String
+)
+
+data class Pagination(
+    @SerializedName("count_per_page") val countPerPage: Int,
+    @SerializedName("total_count") val totalCount: Int,
+    @SerializedName("current_page") val currentPage: Int,
+    @SerializedName("total_pages") val totalPages: Int,
+    @SerializedName("_links") val links: Links
 )
