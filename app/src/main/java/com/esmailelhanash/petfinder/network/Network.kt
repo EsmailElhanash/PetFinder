@@ -18,9 +18,20 @@ object Network {
     }
 
     suspend fun getAllAnimals() : List<Animal>? {
-        val accessToken =  fetchAccessToken()
+        val accessToken = fetchAccessToken()
         return try {
             apiService.getAllAnimals("Bearer $accessToken").await().animals
+        }catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    // get animals of type
+    suspend fun getAnimalsOfType(type: String) : List<Animal>? {
+        val accessToken =  fetchAccessToken()
+        return try {
+            apiService.getAnimalsOfType("Bearer $accessToken", type).await().animals
         }catch (e: Exception) {
             e.printStackTrace()
             null

@@ -9,6 +9,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 
 interface ApiService {
@@ -24,6 +25,11 @@ interface ApiService {
     // get all animals:
     @GET("animals")
     fun getAllAnimals(@Header("Authorization") accessToken: String): Call<AnimalResponse>
+
+
+    @GET("animals")
+    fun getAnimalsOfType(@Header("Authorization") accessToken: String, @Query("type") type: String): Call<AnimalResponse>
+
 
 
 }

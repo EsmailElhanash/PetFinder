@@ -47,6 +47,11 @@ class PetsViewModel : ViewModel() {
     // function to set the currently displayed animal type
     fun setCurrentlyDisplayedType(type: String) {
         _currentlyDisplayedType.value = type
+
+        viewModelScope.launch {
+            Network.getAnimalsOfType(type)
+        }
+
     }
 
 }
