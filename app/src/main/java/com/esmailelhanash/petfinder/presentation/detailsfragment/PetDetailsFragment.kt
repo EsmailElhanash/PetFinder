@@ -42,7 +42,7 @@ class PetDetailsFragment(private val pet: Animal) :  Fragment() {
 
         if (pet.photos.isNotEmpty()) {
             Glide.with(requireContext())
-                .load(pet.photos[0].full) // Set both width and height to create a square image
+                .load(pet.photos[0].medium) // Set both width and height to create a square image
 //                .centerCrop()
                 .placeholder(R.drawable.ph)
                 .into(binding.petImageView)
