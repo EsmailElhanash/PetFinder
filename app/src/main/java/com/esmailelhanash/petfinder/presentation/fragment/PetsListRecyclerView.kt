@@ -1,4 +1,4 @@
-package com.esmailelhanash.petfinder.presentation.typeslistfragment
+package com.esmailelhanash.petfinder.presentation.fragment
 
 import android.view.LayoutInflater
 import android.view.View
@@ -48,9 +48,10 @@ class PetsListRecyclerView (private  val pets: List<Animal>): RecyclerView.Adapt
             val pet = pets[adapterPosition]
 
             // set the name, gender, and type of the animal
-            name.text = pet.name
-            gender.text = pet.gender
-            type.text = pet.type
+            name.text = name.text.replace(Regex("xxx"), pet.name)
+
+            gender.text = gender.text.replace(Regex("xxx"), pet.gender)
+            type.text = type.text.replace(Regex("xxx"), pet.type)
         }
 
 

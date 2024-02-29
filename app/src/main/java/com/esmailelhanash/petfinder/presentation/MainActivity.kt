@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.esmailelhanash.petfinder.R
-import com.esmailelhanash.petfinder.presentation.typeslistfragment.PetsListFragment
+import com.esmailelhanash.petfinder.presentation.fragment.PetsListFragment
 
 
 class MainActivity : AppCompatActivity() {
