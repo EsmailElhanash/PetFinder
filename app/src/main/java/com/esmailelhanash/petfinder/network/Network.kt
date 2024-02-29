@@ -2,6 +2,9 @@ package com.esmailelhanash.petfinder.network
 
 import com.esmailelhanash.petfinder.BuildConfig
 import com.esmailelhanash.petfinder.models.Animal
+import com.esmailelhanash.petfinder.models.AnimalType
+import com.esmailelhanash.petfinder.models.AnimalTypes
+import com.esmailelhanash.petfinder.models.Type
 import retrofit2.Retrofit
 import retrofit2.await
 import retrofit2.awaitResponse
@@ -38,5 +41,16 @@ object Network {
         }
     }
 
-
+    // get all types of animals
+    suspend fun getAllTypes() : List<AnimalType>?{
+        val accessToken =  fetchAccessToken()
+        return try {
+            apiService.getAllTypes("Bearer $accessToken").await().animalTypes.apply {
+                this
+            }
+        }catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 }

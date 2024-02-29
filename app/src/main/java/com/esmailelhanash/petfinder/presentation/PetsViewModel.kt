@@ -21,6 +21,10 @@ class PetsViewModel : ViewModel() {
     val error: MutableLiveData<String?> = _error
 
 
+    // all types livedata
+    private val _types = MutableLiveData<List<String>>()
+    val types: LiveData<List<String>> = _types
+
     // the currently displayed animal type
     // set default selected type to "all"
     private val _currentlyDisplayedType = MutableLiveData<String>().apply {
@@ -52,6 +56,20 @@ class PetsViewModel : ViewModel() {
             Network.getAnimalsOfType(type)
         }
 
+    }
+
+    fun getTypes() {
+        _isLoading.value = true
+        _error.value = null
+        viewModelScope.launch {
+            try {
+                /*_types.value = */Network.getAllTypes()
+            } catch (e: Exception) {
+                _error.value = e.message
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
 }

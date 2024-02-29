@@ -8,6 +8,11 @@ data class AnimalResponse(
     @SerializedName("animals") val animals: List<Animal>,
     @SerializedName("pagination") val pagination: Pagination
 )
+
+
+data class AnimalTypes(
+    val types: List<Type>
+)
 data class Animal(
     @SerializedName("id") val id: String,
     @SerializedName("organization_id") val organizationId: String,
@@ -114,4 +119,35 @@ data class Pagination(
     @SerializedName("current_page") val currentPage: Int,
     @SerializedName("total_pages") val totalPages: Int,
     @SerializedName("_links") val links: Links
+)
+
+
+data class AnimalTypesResponse(
+    @SerializedName("types")
+    val animalTypes: List<AnimalType>
+)
+
+data class AnimalType(
+    @SerializedName("name")
+    val name: String,
+    @SerializedName("coats")
+    val coats: List<String>,
+    @SerializedName("colors")
+    val colors: List<String>,
+    @SerializedName("genders")
+    val genders: List<String>,
+    @SerializedName("_links")
+    val typeLinks: TypeLinks
+)
+
+data class TypeLinks(
+    @SerializedName("self")
+    val selfLink: Link,
+    @SerializedName("breeds")
+    val breedsLink: Link
+)
+
+data class Link(
+    @SerializedName("href")
+    val href: String
 )

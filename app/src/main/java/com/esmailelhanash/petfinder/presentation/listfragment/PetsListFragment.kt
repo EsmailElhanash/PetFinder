@@ -20,6 +20,7 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         petsViewModel.getAllAnimals()
+        petsViewModel.getTypes()
     }
 
 
