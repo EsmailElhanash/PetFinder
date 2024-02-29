@@ -22,7 +22,12 @@ class PetsViewModel : ViewModel() {
 
 
     // the currently displayed animal type
-    private val _currentlyDisplayedType = MutableLiveData<String>()
+    // set default selected type to "all"
+    private val _currentlyDisplayedType = MutableLiveData<String>().apply {
+        value = "All"
+    }
+
+
     val currentlyDisplayedType: LiveData<String> = _currentlyDisplayedType
 
     fun getAllAnimals() {
@@ -37,6 +42,11 @@ class PetsViewModel : ViewModel() {
                 _isLoading.value = false
             }
         }
+    }
+
+    // function to set the currently displayed animal type
+    fun setCurrentlyDisplayedType(type: String) {
+        _currentlyDisplayedType.value = type
     }
 
 }

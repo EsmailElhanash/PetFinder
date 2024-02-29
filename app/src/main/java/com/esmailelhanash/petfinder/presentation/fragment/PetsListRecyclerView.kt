@@ -10,7 +10,11 @@ import com.bumptech.glide.Glide
 import com.esmailelhanash.petfinder.R
 import com.esmailelhanash.petfinder.models.Animal
 
-class PetsListRecyclerView (private  val pets: List<Animal>): RecyclerView.Adapter<PetsListRecyclerView.PetsListViewHolder>() {
+class PetsListRecyclerView (private val allPets: List<Animal>): RecyclerView.Adapter<PetsListRecyclerView.PetsListViewHolder>() {
+
+    private var selectedType: String = "All"
+
+    private var filteredPets: List<Animal> = allPets
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -31,11 +35,31 @@ class PetsListRecyclerView (private  val pets: List<Animal>): RecyclerView.Adapt
     ) {
         holder.bind()
     }
+    override fun getItemId(position: Int): Long {
+        return filteredPets[position].id.toLong()
+    }
+
+    fun selectType(type: String) {
+        selectedType = type
+        filterByType(type)
+        notifyDataSetChanged()
+    }
+
+    private fun filterByType(type: String) {
+        filteredPets = if (type == "All") {
+            allPets
+        }else {
+            allPets.filter { it.type == type }
+        }
+
+    }
 
 
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 
-
-    override fun getItemCount(): Int = pets.size
+    override fun getItemCount(): Int = filteredPets.size
 
 
     // view holder class for the pets types list
@@ -53,7 +77,7 @@ class PetsListRecyclerView (private  val pets: List<Animal>): RecyclerView.Adapt
 
 
             // get the animal at the current position
-            val pet = pets[adapterPosition]
+            val pet = filteredPets[adapterPosition]
 
             // set the name, gender, and type of the animal
             name.text = name.text.replace(Regex("xxx"), pet.name)
