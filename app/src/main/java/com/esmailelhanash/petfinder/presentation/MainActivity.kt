@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import com.esmailelhanash.petfinder.R
-import com.esmailelhanash.petfinder.presentation.listfragment.PetsListFragment
+import com.esmailelhanash.petfinder.presentation.typeslistfragment.PetsListFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
 
-        val myFragment: PetsListFragment = PetsListFragment()
+        val myFragment = PetsListFragment()
 
 
         // Replace R.id.fragmentContainer with the ID of your container in the XML

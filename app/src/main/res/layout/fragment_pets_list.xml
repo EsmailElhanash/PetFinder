@@ -7,16 +7,31 @@
 
 
     <FrameLayout
-        android:orientation="horizontal"
+        android:id="@+id/frameOfTypesList"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/pets_types_list"
             android:orientation="horizontal"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        app:layout_constraintTop_toBottomOf="@+id/frameOfTypesList"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pets_list"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
     </FrameLayout>

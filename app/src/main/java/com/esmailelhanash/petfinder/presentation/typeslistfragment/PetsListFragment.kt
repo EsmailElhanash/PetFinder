@@ -1,4 +1,4 @@
-package com.esmailelhanash.petfinder.presentation.listfragment
+package com.esmailelhanash.petfinder.presentation.typeslistfragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -30,12 +30,14 @@ class PetsListFragment : Fragment() {
         petsViewModel.animals.observe(requireActivity()){
 
             if (it != null) {
-                val recyclerView = view.findViewById<RecyclerView>(R.id.pets_types_list)
-                recyclerView.adapter = PetsTypesRecyclerViewAdapter(it)
+                val petTypesRV = view.findViewById<RecyclerView>(R.id.pets_types_list)
+                petTypesRV.adapter = PetsTypesRecyclerViewAdapter(it)
+                petTypesRV.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
 
-                // layout manager, with horizontal orientation
+                val petsRV = view.findViewById<RecyclerView>(R.id.pets_list)
+                petsRV.adapter = PetsListRecyclerView(it)
+                petsRV.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
 
-                recyclerView.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
             }
         }
 

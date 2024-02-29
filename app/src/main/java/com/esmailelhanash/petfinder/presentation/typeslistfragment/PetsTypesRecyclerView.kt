@@ -1,4 +1,4 @@
-package com.esmailelhanash.petfinder.presentation.listfragment
+package com.esmailelhanash.petfinder.presentation.typeslistfragment
 
 import android.view.LayoutInflater
 import android.view.View

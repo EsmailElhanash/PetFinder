@@ -8,7 +8,6 @@
     android:textColor="#fff"
     android:layout_margin="10dp"
     android:id="@+id/pets_type_name"
-
     >
 
 </TextView>
