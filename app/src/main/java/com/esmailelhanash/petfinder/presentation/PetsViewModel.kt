@@ -25,8 +25,6 @@ class PetsViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private val _error = MutableLiveData<String?>()
-    val error: MutableLiveData<String?> = _error
 
 
 
@@ -46,7 +44,6 @@ class PetsViewModel : ViewModel() {
 
     fun getAllAnimals(type: String? = null) {
         _isLoading.value = true
-        _error.value = null
 
         viewModelScope.launch {
             try {
@@ -60,7 +57,7 @@ class PetsViewModel : ViewModel() {
                     }
                 }
             } catch (e: Exception) {
-                _error.value = e.message
+                e.printStackTrace()
             } finally {
                 _isLoading.value = false
             }
@@ -79,7 +76,6 @@ class PetsViewModel : ViewModel() {
 
     fun getMoreAnimals(animalType: String? = null) {
         _isLoading.value = true
-        _error.value = null
 
         viewModelScope.launch {
             try {
@@ -99,7 +95,7 @@ class PetsViewModel : ViewModel() {
                     }
                 }
             } catch (e: Exception) {
-                _error.value = e.message
+                e.printStackTrace()
             } finally {
                 _isLoading.value = false
             }
@@ -128,12 +124,11 @@ class PetsViewModel : ViewModel() {
 
     fun getTypes() {
         _isLoading.value = true
-        _error.value = null
         viewModelScope.launch {
             try {
                 _types.value = Network.getAllTypes()
             } catch (e: Exception) {
-                _error.value = e.message
+                e.printStackTrace()
             } finally {
                 _isLoading.value = false
             }

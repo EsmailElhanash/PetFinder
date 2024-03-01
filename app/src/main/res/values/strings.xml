@@ -9,4 +9,6 @@
     <string name="color_xxx">Color: xxx</string>
     <string name="address_xxx">Address: xxx</string>
     <string name="back_button">back button</string>
+    <string name="pet_details">Pet Details</string>
+    <string name="pet_s_website">Pet\'s Website</string>
 </resources>

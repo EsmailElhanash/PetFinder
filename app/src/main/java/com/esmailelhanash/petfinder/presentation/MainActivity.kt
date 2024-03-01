@@ -3,8 +3,6 @@ package com.esmailelhanash.petfinder.presentation
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
@@ -71,12 +69,12 @@ class MainActivity : AppCompatActivity() , FragmentChangeListener{
     override fun onFragmentChange(fragmentTag: String) {
         when (fragmentTag) {
             PetsListFragment.TAG -> {
-                binding.pageTitle.text = "Pets"
+                binding.pageTitle.text = getString(R.string.pets)
                 binding.backButton.visibility = View.GONE
 
             }
             PetDetailsFragment.TAG -> {
-                binding.pageTitle.text = "Pet Details"
+                binding.pageTitle.text = getString(R.string.pet_details)
                 binding.backButton.apply {
                     visibility = View.VISIBLE
                     setOnClickListener {
