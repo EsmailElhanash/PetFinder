@@ -7,14 +7,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.esmailelhanash.petfinder.R
 import com.esmailelhanash.petfinder.models.Animal
+import com.esmailelhanash.petfinder.models.AnimalType
 
 
 // implement a recyclerview adapter for the pets types list with custom view holder and item click listener
-class PetsTypesRecyclerViewAdapter(items: List<Animal>, private val itemClickListener: ItemClickListener) : RecyclerView.Adapter<PetsTypesRecyclerViewAdapter.PetsTypesViewHolder>() {
+class PetsTypesRecyclerViewAdapter(items: List<AnimalType>, private val itemClickListener: ItemClickListener) : RecyclerView.Adapter<PetsTypesRecyclerViewAdapter.PetsTypesViewHolder>() {
 
-    // get all distinct types from animals items list and add a new item "all" to the beginning of all the types,
-    // then replicate 4 times
-    private val types = items.map { it.type }.distinct().toMutableList().apply { add(0,"All") }
+
+    // get all types names in a list, and add "All" to the list at position 0
+    private val typesNames = items.map { it.name }.toMutableList().apply {
+        add(0, "All")
+    }
 
     private var selectedType: String = "All"
 
@@ -37,22 +40,28 @@ class PetsTypesRecyclerViewAdapter(items: List<Animal>, private val itemClickLis
         position: Int
     ) {
         holder.itemView.setOnClickListener {
-            itemClickListener.onItemClicked(types[position])
+            itemClickListener.onItemClicked(typesNames[position])
         }
         holder.bind()
     }
 
     // set the selected item in the list, and change its background color to darker
     fun selectType(type: String) {
+
+        val oldType = selectedType
         selectedType = type
-        notifyDataSetChanged()
+
+
+        // notify that the item which has type == type has been selected
+        notifyItemChanged(typesNames.indexOf(type))
+        notifyItemChanged(typesNames.indexOf(oldType))
 
     }
 
 
 
 
-    override fun getItemCount(): Int = types.size
+    override fun getItemCount(): Int = typesNames.size
 
 
     interface ItemClickListener {
@@ -65,8 +74,8 @@ class PetsTypesRecyclerViewAdapter(items: List<Animal>, private val itemClickLis
     inner class PetsTypesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind() {
             val textView = itemView.findViewById<TextView>(R.id.pets_type_name)
-            textView.text = types[adapterPosition]
-            if (selectedType == types[adapterPosition]) {
+            textView.text = typesNames[adapterPosition]
+            if (selectedType == typesNames[adapterPosition]) {
                 itemView.setBackgroundResource(R.drawable.rounded_darkgreen_bg)
             }else{
                 itemView.setBackgroundResource(R.drawable.rounded_lightgreen_bg)

@@ -35,30 +35,21 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
 
         val petTypesRV = view.findViewById<RecyclerView>(R.id.pets_types_list)
         val petsListRV = view.findViewById<RecyclerView>(R.id.pets_list)
-        petsViewModel.animals.observe(requireActivity()){
-            if (it != null) {
-                petTypesRV.adapter = PetsTypesRecyclerViewAdapter(it,this)
-                petTypesRV.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-                petsListRV.adapter = PetsListRecyclerView(it,this)
-                petsListRV.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false)
 
-            }
-        }
+        observeAnimalTypes(petTypesRV)
+
+        observeAnimalsList(petsListRV)
 
         petsViewModel.currentlyDisplayedType.observe(requireActivity()){
             if (it!= null) {
-                // change the bg of currently displayed type in the types adapter to dark green
                 (petTypesRV.adapter as? PetsTypesRecyclerViewAdapter)
                     ?.selectType(it)
 
                 val allPets = petsViewModel.animals.value
                 if (allPets!= null) {
-                    petsListRV.adapter = if (it == "All")
-                        PetsListRecyclerView(allPets,this)
-                        else PetsListRecyclerView(allPets.filter { pet ->
-                        pet.type == it
-
-                    },this)
+                    if (it == "All") {
+                        petsListRV.adapter = PetsListRecyclerView(allPets, this)
+                    }
                 }
 
             }
@@ -67,6 +58,39 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
 
 
         return view
+    }
+
+    // observe animals of a specific type
+    private fun observeAnimalsListOfType( petsListRV: RecyclerView) {
+        petsViewModel.animalsOfTypes.observe(requireActivity()) {
+            petsViewModel.currentlyDisplayedType.value.apply {
+                if (!isNullOrEmpty() ){
+                    petsListRV.adapter = PetsListRecyclerView(it[this]!!, this@PetsListFragment)
+                }
+            }
+
+
+        }
+    }
+
+    private fun observeAnimalsList(petsListRV: RecyclerView) {
+        petsViewModel.animals.observe(requireActivity()) {
+            if (it != null) {
+                petsListRV.adapter = PetsListRecyclerView(it, this)
+                petsListRV.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+            }
+        }
+    }
+
+    private fun observeAnimalTypes(petTypesRV: RecyclerView) {
+        petsViewModel.types.observe(viewLifecycleOwner) {
+
+            petTypesRV.adapter = PetsTypesRecyclerViewAdapter(it, this)
+            petTypesRV.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        }
     }
 
     override fun onItemClicked(type: String) {

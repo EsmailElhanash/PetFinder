@@ -30,11 +30,20 @@
             android:layout_marginVertical="15dp"
             android:layout_gravity="start"/>
 
+<!--        <TextView-->
+<!--            android:id="@+id/typeTextView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Type: xxx"-->
+<!--            android:textSize="22sp"-->
+<!--            android:layout_marginHorizontal="25dp"-->
+<!--            android:layout_marginVertical="15dp"-->
+<!--            android:layout_gravity="start"/>-->
         <TextView
-            android:id="@+id/typeTextView"
+            android:id="@+id/sizeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Type: xxx"
+            android:text="Size: xxx"
             android:textSize="22sp"
             android:layout_marginHorizontal="25dp"
             android:layout_marginVertical="15dp"
@@ -50,44 +59,47 @@
             android:layout_marginVertical="15dp"
             android:layout_gravity="start"/>
 
+
         <TextView
-            android:id="@+id/sizeTextView"
+            android:id="@+id/addressTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Size: xxx"
+            android:text="Address: xxx"
             android:textSize="22sp"
             android:layout_marginHorizontal="25dp"
             android:layout_marginVertical="15dp"
             android:layout_gravity="start"/>
 
-        <TextView
-            android:id="@+id/ageTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Age: xxx"
-            android:textSize="22sp"
-            android:layout_marginHorizontal="25dp"
-            android:layout_marginVertical="15dp"
-            android:layout_gravity="start"/>
 
-        <TextView
-            android:id="@+id/genderTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Gender: xxx"
-            android:textSize="22sp"
-            android:layout_marginHorizontal="25dp"
-            android:layout_marginVertical="15dp"
-            android:layout_gravity="start"/>
-        <TextView
-            android:id="@+id/statusTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Status: xxx"
-            android:textSize="22sp"
-            android:layout_marginHorizontal="25dp"
-            android:layout_marginVertical="15dp"
-            android:layout_gravity="start"/>
+
+<!--        <TextView-->
+<!--            android:id="@+id/ageTextView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Age: xxx"-->
+<!--            android:textSize="22sp"-->
+<!--            android:layout_marginHorizontal="25dp"-->
+<!--            android:layout_marginVertical="15dp"-->
+<!--            android:layout_gravity="start"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/genderTextView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Gender: xxx"-->
+<!--            android:textSize="22sp"-->
+<!--            android:layout_marginHorizontal="25dp"-->
+<!--            android:layout_marginVertical="15dp"-->
+<!--            android:layout_gravity="start"/>-->
+<!--        <TextView-->
+<!--            android:id="@+id/statusTextView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Status: xxx"-->
+<!--            android:textSize="22sp"-->
+<!--            android:layout_marginHorizontal="25dp"-->
+<!--            android:layout_marginVertical="15dp"-->
+<!--            android:layout_gravity="start"/>-->
 
         <!-- Button -->
         <Button

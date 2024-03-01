@@ -15,23 +15,48 @@ class PetDetailsFragment(private val pet: Animal) :  Fragment() {
     override fun onCreateView(
         inflater: android.view.LayoutInflater, container: android.view.ViewGroup?,
         savedInstanceState: Bundle?
-    ): android.view.View? {
+    ): android.view.View {
         _binding = FragmentPetDetailsBinding.inflate(inflater, container, false)
         setImage()
-        binding.nameTextView.text = binding.nameTextView.text.replace(Regex("xxx"), pet.name)
-        binding.genderTextView.text = binding.genderTextView.text.replace(Regex("xxx"), pet.gender)
-        binding.typeTextView.text = binding.typeTextView.text.replace(Regex("xxx"), pet.type)
-        binding.sizeTextView.text = binding.sizeTextView.text.replace(Regex("xxx"), pet.size)
-        binding.colorTextView.text = binding.colorTextView.text.replace(Regex("xxx"), pet.colors.primary ?: "N/A")
-        binding.ageTextView.text = binding.ageTextView.text.replace(Regex("xxx"), pet.age)
-//        binding.descriptionTextView.text = binding.descriptionTextView.text.replace(Regex("xxx"), pet.description?: "N/A")
-        binding.statusTextView.text = binding.statusTextView.text.replace(Regex("xxx"), pet.status)
+        binding.nameTextView.text = binding.nameTextView.text.replace(Regex("xxx"), getPetNameString())
+        binding.sizeTextView.text = binding.sizeTextView.text.replace(Regex("xxx"), getPetSizeString())
+        binding.colorTextView.text = binding.colorTextView.text.replace(Regex("xxx"), getPetColorString())
+        binding.addressTextView.text = binding.addressTextView.text.replace(Regex("xxx"),getAddressString())
 
 
 
 
         return binding.root
     }
+
+    private fun getAddressString(): String {
+        //Address in the following format: city, state, country, or "N/A"
+        return try {
+            pet.contact.address.city + ", " + pet.contact.address.state + ", " + pet.contact.address.country
+        }
+        catch (e: Exception) {
+            "N/A"
+        }
+    }
+
+    private fun getPetSizeString() : String {
+        // if size is null or empty return "N/A"
+        return pet.size.ifEmpty { "N/A" }
+    }
+
+    // if pet name is null or empty return "N/A"
+    private fun getPetNameString() : String {
+        // if name is null or empty return "N/A"
+        return pet.name.ifEmpty { "N/A" }
+    }
+
+    // if color is null or empty return "N/A"
+    private fun getPetColorString() : String {
+        // if color is null or empty return "N/A"
+        return pet.colors.primary?.ifEmpty { "N/A" } ?: "N/A"
+    }
+
+
 
     // set image of the pet:
     private fun setImage() {

@@ -45,9 +45,7 @@ object Network {
     suspend fun getAllTypes() : List<AnimalType>?{
         val accessToken =  fetchAccessToken()
         return try {
-            apiService.getAllTypes("Bearer $accessToken").await().animalTypes.apply {
-                this
-            }
+            apiService.getAllTypes("Bearer $accessToken").await().animalTypes
         }catch (e: Exception) {
             e.printStackTrace()
             null

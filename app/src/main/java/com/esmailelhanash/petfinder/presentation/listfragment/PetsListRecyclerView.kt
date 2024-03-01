@@ -50,6 +50,7 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
 
     // view holder class for the pets types list
     inner class PetsListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val pet = filteredPets[adapterPosition]
         fun bind() {
             // name, gender, and type Text views
             val name = itemView.findViewById<TextView>(R.id.nameTextView)
@@ -63,13 +64,12 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
 
 
             // get the animal at the current position
-            val pet = filteredPets[adapterPosition]
 
             // set the name, gender, and type of the animal
-            name.text = name.text.replace(Regex("xxx"), pet.name)
+            name.text = name.text.replace(Regex("xxx"), getPetNameString())
 
-            gender.text = gender.text.replace(Regex("xxx"), pet.gender)
-            type.text = type.text.replace(Regex("xxx"), pet.type)
+            gender.text = gender.text.replace(Regex("xxx"), getPetGenderString())
+            type.text = type.text.replace(Regex("xxx"), getPetTypeString())
 
             if (pet.photos.isNotEmpty()) {
                 Glide.with(image.context)
@@ -81,6 +81,22 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
             }
 
         }
+
+        private fun getPetNameString() : String {
+            // if name is null or empty return "N/A"
+            return pet.name.ifEmpty { "N/A" }
+        }
+
+        private fun getPetGenderString() : String {
+            // if gender is null or empty return "N/A"
+            return pet.gender.ifEmpty { "N/A" }
+        }
+
+        private fun getPetTypeString() : String {
+            // if type is null or empty return "N/A"
+            return pet.type.ifEmpty { "N/A" }
+        }
+
     }
 
     interface ItemClickListener {
