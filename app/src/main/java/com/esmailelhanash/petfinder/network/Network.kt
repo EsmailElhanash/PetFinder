@@ -38,6 +38,16 @@ object Network {
         }
     }
 
+    suspend fun getMoreAnimalsOfType(page: Int,type: String) : List<Animal>? {
+        val accessToken = fetchAccessToken()
+        return try {
+            apiService.getMoreAnimalsOfType("Bearer $accessToken", type ,page).await().animals
+        }catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
 
     // get animals of type
     suspend fun getAnimalsOfType(type: String) : List<Animal>? {

@@ -63,21 +63,12 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
 
         observeAnimalsList(petsListRV)
 
-        observeAnimalsListOfType(petsListRV)
-
         petsViewModel.currentlyDisplayedType.observe(requireActivity()){
-            if (it!= null) {
-                (petTypesRV.adapter as? PetsTypesRecyclerViewAdapter)
-                    ?.selectType(it)
+            (petTypesRV.adapter as? PetsTypesRecyclerViewAdapter)
+                ?.selectType(it)
 
-                val allPets = petsViewModel.animals.value
-                if (allPets!= null) {
-                    if (it == "All") {
-                        petsListRV.adapter = PetsListRecyclerView(allPets, this)
-                    }
-                }
-
-            }
+            // destroy adapter
+            petsListRV.adapter = null
         }
 
 
@@ -101,54 +92,21 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
                     if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                         && firstVisibleItemPosition >= 0 && petsViewModel.isLoading.value == false) {
                         // check the currently displayed type, even all, and load more animals from this type
-                        if (petsViewModel.currentlyDisplayedType.value == "All") {
-                            petsViewModel.getMoreAnimals()
-                        } else {
-                            petsViewModel.currentlyDisplayedType.value?.let {
-                                petsViewModel.getMoreAnimalsOfType(it)
-                            }
-                        }
+                        petsViewModel.getMoreAnimals(petsViewModel.currentlyDisplayedType.value)
                     }
                 }
             }
         })
     }
 
-
-    // observe animals of a specific type
-    private fun observeAnimalsListOfType( petsListRV: RecyclerView) {
-        petsViewModel.animalsOfTypes.observe(requireActivity()) {
-            petsViewModel.currentlyDisplayedType.value.apply {
-                if (!isNullOrEmpty() ){
-
-                    if (this != "All")  {
-                        try {
-                            val animalsListOfType = it[this]
-                            petsListRV.adapter = PetsListRecyclerView(animalsListOfType!!, this@PetsListFragment)
-                        }catch (_: Exception) {
-
-                        }
-                    }
-
-                }
-            }
-
-
-        }
-    }
-
     private fun observeAnimalsList(petsListRV: RecyclerView) {
         petsViewModel.animals.observe(requireActivity()) {
-            if (it != null && petsViewModel.currentlyDisplayedType.value == "All") {
-                if (petsListRV.adapter == null) {
-                    petsListRV.adapter = PetsListRecyclerView(it, this)
-                    petsListRV.layoutManager =
-                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                }else {
-                    (petsListRV.adapter as? PetsListRecyclerView)?.updateList(it)
-                }
-
-
+            if (petsListRV.adapter == null) {
+                petsListRV.adapter = PetsListRecyclerView(it, this)
+                petsListRV.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            }else {
+                (petsListRV.adapter as? PetsListRecyclerView)?.updateList(it)
             }
         }
     }
