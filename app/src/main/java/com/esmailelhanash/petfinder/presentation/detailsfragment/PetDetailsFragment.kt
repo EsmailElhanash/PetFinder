@@ -1,5 +1,6 @@
 package com.esmailelhanash.petfinder.presentation.detailsfragment
 
+import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +8,16 @@ import com.bumptech.glide.Glide
 import com.esmailelhanash.petfinder.R
 import com.esmailelhanash.petfinder.databinding.FragmentPetDetailsBinding
 import com.esmailelhanash.petfinder.models.Animal
+import com.esmailelhanash.petfinder.presentation.FragmentChangeListener
 
 class PetDetailsFragment(private val pet: Animal) :  Fragment() {
+
+
+    // fragment tag
+    companion object{
+        val TAG: String = PetDetailsFragment::class.java.simpleName
+    }
+    private var fragmentChangeListener: FragmentChangeListener? = null
 
     private var _binding: FragmentPetDetailsBinding? = null
     private val binding get() = _binding!!
@@ -27,6 +36,18 @@ class PetDetailsFragment(private val pet: Animal) :  Fragment() {
 
 
         return binding.root
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentChangeListener) {
+            fragmentChangeListener = context
+
+
+            fragmentChangeListener?.onFragmentChange(TAG)
+        } else {
+            throw RuntimeException("$context must implement FragmentChangeListener")
+        }
     }
 
     private fun getAddressString(): String {

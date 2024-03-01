@@ -50,7 +50,6 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
 
     // view holder class for the pets types list
     inner class PetsListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val pet = filteredPets[adapterPosition]
         fun bind() {
             // name, gender, and type Text views
             val name = itemView.findViewById<TextView>(R.id.nameTextView)
@@ -59,6 +58,7 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
 
             // image
             val image = itemView.findViewById<ImageView>(R.id.petPhoto)
+            val pet = filteredPets[adapterPosition]
 
 
 
@@ -66,10 +66,10 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
             // get the animal at the current position
 
             // set the name, gender, and type of the animal
-            name.text = name.text.replace(Regex("xxx"), getPetNameString())
+            name.text = name.text.replace(Regex("xxx"), getPetNameString(pet))
 
-            gender.text = gender.text.replace(Regex("xxx"), getPetGenderString())
-            type.text = type.text.replace(Regex("xxx"), getPetTypeString())
+            gender.text = gender.text.replace(Regex("xxx"), getPetGenderString(pet))
+            type.text = type.text.replace(Regex("xxx"), getPetTypeString(pet))
 
             if (pet.photos.isNotEmpty()) {
                 Glide.with(image.context)
@@ -82,17 +82,17 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
 
         }
 
-        private fun getPetNameString() : String {
+        private fun getPetNameString(pet : Animal) : String {
             // if name is null or empty return "N/A"
             return pet.name.ifEmpty { "N/A" }
         }
 
-        private fun getPetGenderString() : String {
+        private fun getPetGenderString(pet: Animal) : String {
             // if gender is null or empty return "N/A"
             return pet.gender.ifEmpty { "N/A" }
         }
 
-        private fun getPetTypeString() : String {
+        private fun getPetTypeString(pet: Animal) : String {
             // if type is null or empty return "N/A"
             return pet.type.ifEmpty { "N/A" }
         }

@@ -1,5 +1,6 @@
 package com.esmailelhanash.petfinder.presentation.listfragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -7,11 +8,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.esmailelhanash.petfinder.R
 import com.esmailelhanash.petfinder.models.Animal
+import com.esmailelhanash.petfinder.presentation.FragmentChangeListener
 import com.esmailelhanash.petfinder.presentation.PetsViewModel
 import com.esmailelhanash.petfinder.presentation.detailsfragment.PetDetailsFragment
 
 class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListener, PetsListRecyclerView.ItemClickListener {
 
+
+    // fragment tag
+    companion object {
+        val TAG: String = PetsListFragment::class.java.simpleName
+    }
+
+    private var fragmentChangeListener: FragmentChangeListener? = null
     // viewmodel
     private val petsViewModel: PetsViewModel by lazy {
         ViewModelProvider(this)[PetsViewModel::class.java]
@@ -23,7 +32,16 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
         petsViewModel.getTypes()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        if (context is FragmentChangeListener) {
+            fragmentChangeListener = context
 
+            fragmentChangeListener?.onFragmentChange(TAG)
+        } else {
+            throw RuntimeException("$context must implement FragmentChangeListener")
+        }
+    }
 
 
     override fun onCreateView(
@@ -39,6 +57,8 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
         observeAnimalTypes(petTypesRV)
 
         observeAnimalsList(petsListRV)
+
+        observeAnimalsListOfType(petsListRV)
 
         petsViewModel.currentlyDisplayedType.observe(requireActivity()){
             if (it!= null) {
@@ -65,7 +85,16 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
         petsViewModel.animalsOfTypes.observe(requireActivity()) {
             petsViewModel.currentlyDisplayedType.value.apply {
                 if (!isNullOrEmpty() ){
-                    petsListRV.adapter = PetsListRecyclerView(it[this]!!, this@PetsListFragment)
+
+                    if (this != "All")  {
+                        try {
+                            val animalsListOfType = it[this]
+                            petsListRV.adapter = PetsListRecyclerView(animalsListOfType!!, this@PetsListFragment)
+                        }catch (_: Exception) {
+
+                        }
+                    }
+
                 }
             }
 

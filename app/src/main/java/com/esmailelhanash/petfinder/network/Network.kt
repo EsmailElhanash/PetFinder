@@ -3,11 +3,8 @@ package com.esmailelhanash.petfinder.network
 import com.esmailelhanash.petfinder.BuildConfig
 import com.esmailelhanash.petfinder.models.Animal
 import com.esmailelhanash.petfinder.models.AnimalType
-import com.esmailelhanash.petfinder.models.AnimalTypes
-import com.esmailelhanash.petfinder.models.Type
 import retrofit2.Retrofit
 import retrofit2.await
-import retrofit2.awaitResponse
 
 
 object Network {

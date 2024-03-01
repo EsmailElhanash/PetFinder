@@ -4,4 +4,8 @@
     <string name="name_xxx">Name: xxx</string>
     <string name="gender_xxx">Gender: xxx</string>
     <string name="type_xxx">Type: xxx</string>
+    <string name="pet_image">pet image</string>
+    <string name="size_xxx">Size: xxx</string>
+    <string name="color_xxx">Color: xxx</string>
+    <string name="address_xxx">Address: xxx</string>
 </resources>
