@@ -8,4 +8,5 @@
     <string name="size_xxx">Size: xxx</string>
     <string name="color_xxx">Color: xxx</string>
     <string name="address_xxx">Address: xxx</string>
+    <string name="back_button">back button</string>
 </resources>

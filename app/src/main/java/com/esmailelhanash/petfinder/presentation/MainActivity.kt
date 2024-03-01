@@ -2,6 +2,8 @@ package com.esmailelhanash.petfinder.presentation
 
 
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -48,10 +50,19 @@ class MainActivity : AppCompatActivity() , FragmentChangeListener{
     override fun onFragmentChange(fragmentTag: String) {
         when (fragmentTag) {
             PetsListFragment.TAG -> {
+                findViewById<TextView>(R.id.pageTitle).text = "Pets"
+                findViewById<ImageView>(R.id.backButton).visibility = View.GONE
 
             }
             PetDetailsFragment.TAG -> {
-                    findViewById<TextView>(R.id.pageTitle)
+                findViewById<TextView>(R.id.pageTitle).text = "Pet Details"
+                findViewById<ImageView>(R.id.backButton).apply {
+                    visibility = View.VISIBLE
+                    setOnClickListener {
+                        supportFragmentManager.popBackStack()
+
+                    }
+                }
             }
         }
     }

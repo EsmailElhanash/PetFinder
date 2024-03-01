@@ -36,11 +36,14 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
         super.onAttach(context)
         if (context is FragmentChangeListener) {
             fragmentChangeListener = context
-
-            fragmentChangeListener?.onFragmentChange(TAG)
         } else {
             throw RuntimeException("$context must implement FragmentChangeListener")
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        fragmentChangeListener?.onFragmentChange(TAG)
     }
 
 
