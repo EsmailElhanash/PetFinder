@@ -1,7 +1,9 @@
 package com.esmailelhanash.petfinder.presentation.detailsfragment
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -9,6 +11,7 @@ import com.esmailelhanash.petfinder.R
 import com.esmailelhanash.petfinder.databinding.FragmentPetDetailsBinding
 import com.esmailelhanash.petfinder.models.Animal
 import com.esmailelhanash.petfinder.presentation.FragmentChangeListener
+
 
 class PetDetailsFragment(private val pet: Animal) :  Fragment() {
 
@@ -32,6 +35,13 @@ class PetDetailsFragment(private val pet: Animal) :  Fragment() {
         binding.colorTextView.text = binding.colorTextView.text.replace(Regex("xxx"), getPetColorString())
         binding.addressTextView.text = binding.addressTextView.text.replace(Regex("xxx"),getAddressString())
 
+
+        binding.petsWebsiteButton.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(pet.url))
+            startActivity(intent)
+
+
+        }
 
 
 
@@ -92,6 +102,10 @@ class PetDetailsFragment(private val pet: Animal) :  Fragment() {
                 .placeholder(R.drawable.ph)
                 .into(binding.petImageView)
         } else {
+            Glide.with(requireContext())
+                .load(R.drawable.ph) // Set both width and height to create a square image
+                .into(binding.petImageView)
+
             // Handle the case when the photos list is empty, maybe set a default image or take another action.
         }
     }

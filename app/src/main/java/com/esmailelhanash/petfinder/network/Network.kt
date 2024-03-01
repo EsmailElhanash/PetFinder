@@ -27,6 +27,18 @@ object Network {
         }
     }
 
+    // get more animals, with a new page number as a query parameter
+    suspend fun getMoreAnimals(page: Int) : List<Animal>? {
+        val accessToken = fetchAccessToken()
+        return try {
+            apiService.getMoreAnimals("Bearer $accessToken",page).await().animals
+        }catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+
     // get animals of type
     suspend fun getAnimalsOfType(type: String) : List<Animal>? {
         val accessToken =  fetchAccessToken()

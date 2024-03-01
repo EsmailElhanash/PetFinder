@@ -28,6 +28,9 @@ interface ApiService {
 
 
     @GET("animals")
+    fun getMoreAnimals(@Header("Authorization") accessToken: String, @Query("page") page: Int):  Call<AnimalResponse>
+
+    @GET("animals")
     fun getAnimalsOfType(@Header("Authorization") accessToken: String, @Query("type") type: String): Call<AnimalResponse>
 
 

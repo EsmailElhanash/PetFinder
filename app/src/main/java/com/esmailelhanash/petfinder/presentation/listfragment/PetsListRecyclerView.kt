@@ -5,14 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.esmailelhanash.petfinder.R
 import com.esmailelhanash.petfinder.models.Animal
 
-class PetsListRecyclerView (private val allPets: List<Animal>, private val itemClickListener: ItemClickListener): RecyclerView.Adapter<PetsListRecyclerView.PetsListViewHolder>() {
 
-    private var filteredPets: List<Animal> = allPets
+class PetsListRecyclerView (private var pets: List<Animal>, private val itemClickListener: ItemClickListener): RecyclerView.Adapter<PetsListRecyclerView.PetsListViewHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -25,6 +25,17 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
         return PetsListViewHolder(view)
     }
 
+    fun updateList(newList: List<Animal>) {
+        // Calculate the diff between the old and new lists
+        val result = DiffUtil.calculateDiff(YourDiffCallback(pets, newList))
+
+        // Update the current list
+        pets = newList
+
+        // Apply the diff result to the adapter
+        result.dispatchUpdatesTo(this)
+    }
+
     // extract all possible types from the list
 
     override fun onBindViewHolder(
@@ -32,12 +43,12 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
         position: Int
     ) {
         holder.itemView.setOnClickListener {
-            itemClickListener.onItemClicked(allPets[position])
+            itemClickListener.onItemClicked(pets[position])
         }
         holder.bind()
     }
     override fun getItemId(position: Int): Long {
-        return filteredPets[position].id.toLong()
+        return pets[position].id.toLong()
     }
 
 
@@ -45,7 +56,7 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
         return position
     }
 
-    override fun getItemCount(): Int = filteredPets.size
+    override fun getItemCount(): Int = pets.size
 
 
     // view holder class for the pets types list
@@ -58,7 +69,7 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
 
             // image
             val image = itemView.findViewById<ImageView>(R.id.petPhoto)
-            val pet = filteredPets[adapterPosition]
+            val pet = pets[adapterPosition]
 
 
 
@@ -76,8 +87,6 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
                     .load(pet.photos[0].small)
                     .placeholder(R.drawable.ph)
                     .into(image)
-            } else {
-                // Handle the case when the photos list is empty, maybe set a default image or take another action.
             }
 
         }
@@ -103,5 +112,30 @@ class PetsListRecyclerView (private val allPets: List<Animal>, private val itemC
         fun onItemClicked(animal: Animal)
         // Add more methods for other events if needed
 
+    }
+
+    // YourDiffCallback class to calculate the differences
+    private class YourDiffCallback(private val oldList: List<Animal>,
+                                   private val newList: List<Animal>
+    ) :
+        DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int {
+            return oldList.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newList.size
+        }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            // Implement logic to check if items are the same (e.g., using unique IDs)
+            return oldList[oldItemPosition].id === newList[newItemPosition].id
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            // Implement logic to check if item contents are the same
+            return oldList[oldItemPosition] == newList[newItemPosition]
+        }
     }
 }

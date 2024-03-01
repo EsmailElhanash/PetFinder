@@ -23,7 +23,7 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
     private var fragmentChangeListener: FragmentChangeListener? = null
     // viewmodel
     private val petsViewModel: PetsViewModel by lazy {
-        ViewModelProvider(this)[PetsViewModel::class.java]
+        ViewModelProvider(requireActivity())[PetsViewModel::class.java]
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +57,8 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
         val petTypesRV = view.findViewById<RecyclerView>(R.id.pets_types_list)
         val petsListRV = view.findViewById<RecyclerView>(R.id.pets_list)
 
+        listenMaxScrollEvent(petsListRV)
+
         observeAnimalTypes(petTypesRV)
 
         observeAnimalsList(petsListRV)
@@ -83,6 +85,36 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
         return view
     }
 
+    // recycler view scroll listener
+    private fun listenMaxScrollEvent(recyclerView: RecyclerView) {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                // Check if scrolling downward (dy > 0)
+                if (dy > 0) {
+                    val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                    val visibleItemCount = layoutManager.childCount
+                    val totalItemCount = layoutManager.itemCount
+                    val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0 && petsViewModel.isLoading.value == false) {
+                        // check the currently displayed type, even all, and load more animals from this type
+                        if (petsViewModel.currentlyDisplayedType.value == "All") {
+                            petsViewModel.getMoreAnimals()
+                        } else {
+                            petsViewModel.currentlyDisplayedType.value?.let {
+                                petsViewModel.getMoreAnimalsOfType(it)
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+
     // observe animals of a specific type
     private fun observeAnimalsListOfType( petsListRV: RecyclerView) {
         petsViewModel.animalsOfTypes.observe(requireActivity()) {
@@ -107,10 +139,15 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
 
     private fun observeAnimalsList(petsListRV: RecyclerView) {
         petsViewModel.animals.observe(requireActivity()) {
-            if (it != null) {
-                petsListRV.adapter = PetsListRecyclerView(it, this)
-                petsListRV.layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            if (it != null && petsViewModel.currentlyDisplayedType.value == "All") {
+                if (petsListRV.adapter == null) {
+                    petsListRV.adapter = PetsListRecyclerView(it, this)
+                    petsListRV.layoutManager =
+                        LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                }else {
+                    (petsListRV.adapter as? PetsListRecyclerView)?.updateList(it)
+                }
+
 
             }
         }

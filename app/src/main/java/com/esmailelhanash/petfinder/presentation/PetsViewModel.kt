@@ -12,8 +12,15 @@ import kotlinx.coroutines.launch
 
 class PetsViewModel : ViewModel() {
 
-    private val _animals = MutableLiveData<List<Animal>>()
-    val animals: LiveData<List<Animal>> = _animals
+
+    private val _animals = MutableLiveData<MutableList<Animal>>().apply {
+        value = mutableListOf()
+        // when reset of the list, we want to reset the page number to 2
+        nextPageToBeLoaded = 2
+    }
+    val animals: LiveData<MutableList<Animal>> = _animals
+
+    private var nextPageToBeLoaded = 2
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -23,10 +30,14 @@ class PetsViewModel : ViewModel() {
 
 
     // a mutable live data to store a map between type names and their animals list
-    private val _animalsOfTypes = MutableLiveData<MutableMap<String, List<Animal>>>().apply {
+    private val _animalsOfTypes = MutableLiveData<MutableMap<String, MutableList<Animal>>>().apply {
         value = mutableMapOf()
     }
-    val animalsOfTypes: LiveData<MutableMap<String, List<Animal>>> = _animalsOfTypes
+
+
+    private var lastLoadedPageForAnimalType = mutableMapOf<String,Int>()
+
+    val animalsOfTypes: LiveData<MutableMap<String, MutableList<Animal>>> = _animalsOfTypes
 
 
     // all types livedata
@@ -47,13 +58,50 @@ class PetsViewModel : ViewModel() {
         _error.value = null
         viewModelScope.launch {
             try {
-                _animals.value = Network.getAllAnimals()
+                Network.getAllAnimals().apply {
+                    if (this!= null) {
+                        updateList(this.toMutableList())
+                    }
+                }
+
             } catch (e: Exception) {
                 _error.value = e.message
             } finally {
                 _isLoading.value = false
             }
         }
+    }
+
+    private fun updateList(newAnimals: MutableList<Animal>) {
+        // if the list is empty, post immediately, or if not empty, add the new animals to the end of the list
+        if (_animals.value?.isEmpty() == true) {
+            _animals.postValue(newAnimals)
+        } else {
+            _animals.postValue(_animals.value?.plus(newAnimals)?.toMutableList())
+        }
+    }
+
+    fun getMoreAnimals() {
+        _isLoading.value = true
+        _error.value = null
+        viewModelScope.launch {
+            try {
+                Network.getMoreAnimals(nextPageToBeLoaded)?.let { newAnimals ->
+                    _animals.value.apply {
+                        updateList(newAnimals.toMutableList())
+                    }
+                    nextPageToBeLoaded++
+                }
+            } catch (e: Exception) {
+                _error.value = e.message
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    fun getMoreAnimalsOfType(animalType: String) {
+
     }
 
     // function to set the currently displayed animal type
@@ -70,10 +118,9 @@ class PetsViewModel : ViewModel() {
             try {
                 // replace or update the current entry of the map with key = type
                 Network.getAnimalsOfType(type)?.let {
-
                     _animalsOfTypes.postValue(
                         _animalsOfTypes.value?.apply {
-                            put(type, it)
+                            put(type, it.toMutableList())
                         }
                     )
                 }
