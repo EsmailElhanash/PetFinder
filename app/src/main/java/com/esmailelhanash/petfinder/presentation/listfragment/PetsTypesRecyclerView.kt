@@ -10,7 +10,7 @@ import com.esmailelhanash.petfinder.models.AnimalType
 
 
 // implement a recyclerview adapter for the pets types list with custom view holder and item click listener
-class PetsTypesRecyclerViewAdapter(items: List<AnimalType>, private val itemClickListener: ItemClickListener) : RecyclerView.Adapter<PetsTypesRecyclerViewAdapter.PetsTypesViewHolder>() {
+class PetsTypesRecyclerViewAdapter(items: List<AnimalType>, private val itemClickListener: ItemClickListener,private var selectedType: String = "All") : RecyclerView.Adapter<PetsTypesRecyclerViewAdapter.PetsTypesViewHolder>() {
 
 
     // get all types names in a list, and add "All" to the list at position 0
@@ -18,7 +18,7 @@ class PetsTypesRecyclerViewAdapter(items: List<AnimalType>, private val itemClic
         add(0, "All")
     }
 
-    private var selectedType: String = "All"
+
 
 
     override fun onCreateViewHolder(

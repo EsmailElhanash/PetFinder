@@ -115,8 +115,8 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
 
     private fun observeAnimalTypes(petTypesRV: RecyclerView) {
         petsViewModel.types.observe(viewLifecycleOwner) {
-
-            petTypesRV.adapter = PetsTypesRecyclerViewAdapter(it, this)
+            val currentSelectedType = petsViewModel.currentlyDisplayedType.value
+            petTypesRV.adapter = PetsTypesRecyclerViewAdapter(it, this, currentSelectedType ?: "All")
             petTypesRV.layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
