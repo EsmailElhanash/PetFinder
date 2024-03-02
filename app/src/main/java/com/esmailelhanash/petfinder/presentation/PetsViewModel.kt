@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.esmailelhanash.petfinder.models.Animal
 import com.esmailelhanash.petfinder.models.AnimalType
@@ -12,8 +11,7 @@ import com.esmailelhanash.petfinder.network.Network
 import kotlinx.coroutines.launch
 
 
-class PetsViewModel(application: Application) : AndroidViewModel(application) {
-    private val context = getApplication<Application>().applicationContext
+class PetsViewModel(private val application: Application) : AndroidViewModel(application) {
 
     private val _animals = MutableLiveData<MutableList<Animal>>().apply {
         value = mutableListOf()
@@ -51,11 +49,11 @@ class PetsViewModel(application: Application) : AndroidViewModel(application) {
 
             try {
                 if (type != null && type != "All") {
-                    Network.getAnimalsOfType(context,type)?.let {
+                    Network.getAnimalsOfType(application,type)?.let {
                         updateList(it.toMutableList())
                     }
                 } else {
-                    Network.getAllAnimals(context)?.let {
+                    Network.getAllAnimals(application)?.let {
                         updateList(it.toMutableList())
                     }
                 }
@@ -83,14 +81,14 @@ class PetsViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             try {
                 if (animalType != null && animalType != "All") {
-                    Network.getMoreAnimalsOfType(context,nextPageToBeLoaded, animalType)?.let { newAnimals ->
+                    Network.getMoreAnimalsOfType(application,nextPageToBeLoaded, animalType)?.let { newAnimals ->
                         _animals.value.apply {
                             updateList(newAnimals.toMutableList())
                         }
                         nextPageToBeLoaded++
                     }
                 } else {
-                    Network.getMoreAnimals(context,nextPageToBeLoaded)?.let { newAnimals ->
+                    Network.getMoreAnimals(application,nextPageToBeLoaded)?.let { newAnimals ->
                         _animals.value.apply {
                             updateList(newAnimals.toMutableList())
                         }
@@ -129,7 +127,7 @@ class PetsViewModel(application: Application) : AndroidViewModel(application) {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                _types.value = Network.getAllTypes(context)
+                _types.value = Network.getAllTypes(application)
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
