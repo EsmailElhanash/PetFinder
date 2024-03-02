@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="20dp"
     android:textSize="18sp"
-    android:background="@drawable/rounded_lightgreen_bg"
+    android:background="@drawable/rounded_light_green_bg"
     android:textColor="#000"
     android:layout_margin="10dp"
     android:id="@+id/pets_type_name"

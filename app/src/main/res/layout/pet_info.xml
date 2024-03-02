@@ -9,6 +9,7 @@
 
     <!-- Image -->
     <ImageView
+        android:contentDescription="@string/pet_image"
         android:src="@drawable/ph"
         android:id="@+id/petPhoto"
         android:layout_width="120dp"

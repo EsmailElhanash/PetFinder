@@ -10,9 +10,6 @@ data class AnimalResponse(
 )
 
 
-data class AnimalTypes(
-    val types: List<Type>
-)
 data class Animal(
     @SerializedName("id") val id: String,
     @SerializedName("organization_id") val organizationId: String,

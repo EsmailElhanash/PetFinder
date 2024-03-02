@@ -34,7 +34,7 @@ interface ApiService {
     fun getAnimalsOfType(@Header("Authorization") accessToken: String, @Query("type") type: String): Call<AnimalResponse>
 
     @GET("animals")
-    fun getMoreAnimalsOfType(@Header("Authorization") accessToken: String, @Query("type") type: String, @Query("page") page: Int, ):  Call<AnimalResponse>
+    fun getMoreAnimalsOfType(@Header("Authorization") accessToken: String, @Query("type") type: String, @Query("page") page: Int):  Call<AnimalResponse>
 
 
     // get all types of animals:

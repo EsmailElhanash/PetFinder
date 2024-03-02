@@ -79,7 +79,7 @@ class PetsTypesRecyclerViewAdapter(items: List<AnimalType>, private val itemClic
             if (selectedType == typesNames[adapterPosition]) {
                 itemView.setBackgroundResource(R.drawable.rounded_darkgreen_bg)
             }else{
-                itemView.setBackgroundResource(R.drawable.rounded_lightgreen_bg)
+                itemView.setBackgroundResource(R.drawable.rounded_light_green_bg)
             }
 
 
