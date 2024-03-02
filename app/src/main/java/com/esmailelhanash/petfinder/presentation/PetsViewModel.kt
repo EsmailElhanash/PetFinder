@@ -1,5 +1,7 @@
 package com.esmailelhanash.petfinder.presentation
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,8 +12,8 @@ import com.esmailelhanash.petfinder.network.Network
 import kotlinx.coroutines.launch
 
 
-class PetsViewModel : ViewModel() {
-
+class PetsViewModel(application: Application) : AndroidViewModel(application) {
+    private val context = getApplication<Application>().applicationContext
 
     private val _animals = MutableLiveData<MutableList<Animal>>().apply {
         value = mutableListOf()
@@ -46,13 +48,14 @@ class PetsViewModel : ViewModel() {
         _isLoading.value = true
 
         viewModelScope.launch {
+
             try {
                 if (type != null && type != "All") {
-                    Network.getAnimalsOfType(type)?.let {
+                    Network.getAnimalsOfType(context,type)?.let {
                         updateList(it.toMutableList())
                     }
                 } else {
-                    Network.getAllAnimals()?.let {
+                    Network.getAllAnimals(context)?.let {
                         updateList(it.toMutableList())
                     }
                 }
@@ -80,14 +83,14 @@ class PetsViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 if (animalType != null && animalType != "All") {
-                    Network.getMoreAnimalsOfType(nextPageToBeLoaded, animalType)?.let { newAnimals ->
+                    Network.getMoreAnimalsOfType(context,nextPageToBeLoaded, animalType)?.let { newAnimals ->
                         _animals.value.apply {
                             updateList(newAnimals.toMutableList())
                         }
                         nextPageToBeLoaded++
                     }
                 } else {
-                    Network.getMoreAnimals(nextPageToBeLoaded)?.let { newAnimals ->
+                    Network.getMoreAnimals(context,nextPageToBeLoaded)?.let { newAnimals ->
                         _animals.value.apply {
                             updateList(newAnimals.toMutableList())
                         }
@@ -126,7 +129,7 @@ class PetsViewModel : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                _types.value = Network.getAllTypes()
+                _types.value = Network.getAllTypes(context)
             } catch (e: Exception) {
                 e.printStackTrace()
             } finally {
