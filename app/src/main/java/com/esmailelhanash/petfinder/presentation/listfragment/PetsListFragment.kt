@@ -63,12 +63,14 @@ class PetsListFragment : Fragment(), PetsTypesRecyclerViewAdapter.ItemClickListe
 
         observeAnimalsList(petsListRV)
 
-        petsViewModel.currentlyDisplayedType.observe(requireActivity()){
-            (petTypesRV.adapter as? PetsTypesRecyclerViewAdapter)
-                ?.selectType(it)
-
-            // destroy adapter
-            petsListRV.adapter = null
+        petsViewModel.currentlyDisplayedType.observe(requireActivity()) {
+            if ((petTypesRV.adapter as? PetsTypesRecyclerViewAdapter)
+                    ?.selectType(it) == true
+            ) {
+                // successfully changed the selected type
+                // destroy adapter
+                petsListRV.adapter = null
+            }
         }
 
 

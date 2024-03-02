@@ -45,7 +45,9 @@ class PetsTypesRecyclerViewAdapter(items: List<AnimalType>, private val itemClic
     }
 
     // set the selected item in the list, and change its background color to darker
-    fun selectType(type: String) {
+    fun selectType(type: String) : Boolean {
+
+        if (type == selectedType) return false
 
         val oldType = selectedType
         selectedType = type
@@ -54,7 +56,7 @@ class PetsTypesRecyclerViewAdapter(items: List<AnimalType>, private val itemClic
         // notify that the item which has type == type has been selected
         notifyItemChanged(typesNames.indexOf(type))
         notifyItemChanged(typesNames.indexOf(oldType))
-
+        return true
     }
 
 
